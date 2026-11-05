@@ -14,7 +14,7 @@ def fetch_json(url, tries=3):
     for attempt in range(1, tries + 1):
         try:
             response = requests.get(url, timeout=10)
-            response.raise_for_status()  # turns errors like 500 into exceptions
+            response.raise_for_status()
             return response.json()
         except requests.RequestException as error:
             print(f"Attempt {attempt} failed for {url}: {error}")
