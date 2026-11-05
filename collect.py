@@ -1,10 +1,11 @@
+import os
 import sys
 import time
-import requests
+from datetime import UTC, datetime
+
 import psycopg2
-import os
+import requests
 from dotenv import load_dotenv
-from datetime import datetime, timezone
 
 BASE_URL = "https://hacker-news.firebaseio.com/v0"
 load_dotenv()
@@ -54,7 +55,7 @@ def main():
             );
         """)
 
-        snapshot_time = datetime.now(timezone.utc)
+        snapshot_time = datetime.now(UTC)
         saved = 0
 
         for rank, story_id in enumerate(top_100, start=1):
@@ -64,7 +65,7 @@ def main():
 
             posted_time = None
             if "time" in story:
-                posted_time = datetime.fromtimestamp(story["time"], tz=timezone.utc)
+                posted_time = datetime.fromtimestamp(story["time"], tz=UTC)
 
             cur.execute(
                 """
