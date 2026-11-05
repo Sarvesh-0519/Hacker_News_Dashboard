@@ -1,0 +1,7 @@
+[Unit]
+Description=Collecting a Hacker News snapshot
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/naandhaan/Desktop/DE
+ExecStart=/home/naandhaan/Desktop/DE/de/bin/python /home/naandhaan/Desktop/DE/collect.py
