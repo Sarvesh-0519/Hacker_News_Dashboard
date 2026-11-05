@@ -1,0 +1,28 @@
+services:
+  pg:
+    image: postgres:16
+    container_name: pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${DB_Password}
+    ports:
+      - "127.0.0.1:6283:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - pg
+
+volumes:
+  pgdata:
+    external: true
+  grafana-data:
+    external: true
