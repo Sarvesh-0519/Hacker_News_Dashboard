@@ -3,7 +3,12 @@ name: CI
 on: [push]
 
 jobs:
-  hello:
+  lint:
     runs-on: codeberg-tiny
     steps:
-      - run: echo "runner works"
+      - uses: https://code.forgejo.org/actions/checkout@v4
+      - name: Install ruff and check code
+        run: |
+          python3 -m venv .ci-venv
+          .ci-venv/bin/pip install ruff
+          .ci-venv/bin/ruff check .
