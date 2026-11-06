@@ -1,0 +1,10 @@
+version: 2
+
+
+sources:
+  - name: hn
+    schema: public
+    tables:
+      - name: hn_snapshots
+
+

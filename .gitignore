@@ -1,3 +1,8 @@
 .env
 de/
 __pycache__/
+hn_dbt/target/
+hn_dbt/logs/
+hn_dbt/dbt_packages/
+*.kate-swp
+logs/
