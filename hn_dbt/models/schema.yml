@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: story_history
+    columns:
+      - name: story_id
+        data_tests:
+          - unique
+          - not_null
+      - name: first_seen
+        data_tests:
+          - not_null
+      - name: snapshots_seen
+        data_tests:
+          - not_null

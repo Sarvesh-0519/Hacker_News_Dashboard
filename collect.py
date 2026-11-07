@@ -59,7 +59,7 @@ def main():
         saved = 0
 
         for rank, story_id in enumerate(top_100, start=1):
-            story = fetch_json(f"{BASE_URL}/item/{story_id}.json")
+            story = fetch_jsockerxcn(f"{BASE_URL}/item/{story_id}.json")
             if story is None:
                 continue
 
