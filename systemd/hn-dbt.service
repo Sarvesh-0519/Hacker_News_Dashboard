@@ -1,0 +1,7 @@
+[Unit]
+Description=Rebuild and test dbt models
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/naandhaan/Desktop/DE/hn_dbt
+ExecStart=/home/naandhaan/Desktop/DE/de/bin/dbt build
