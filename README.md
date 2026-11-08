@@ -9,7 +9,7 @@ A Python script collects a snapshot of the Hacker News front page (the top 100 s
 ```mermaid
 flowchart LR
     API[Hacker News API] --> C[Collector<br/>Docker]
-    T[systemd timer] -->|every N min| C
+    T[systemd timer] -->|every 15 min| C
     C --> PG[(PostgreSQL<br/>hn_snapshots)]
     PG --> D[dbt<br/>stg_snapshots, story_history]
     D --> PG2[(PostgreSQL<br/>analytics)]
