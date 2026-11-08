@@ -5,4 +5,4 @@ OnSuccess=hn-dbt.service
 [Service]
 Type=oneshot
 WorkingDirectory=/home/naandhaan/Desktop/DE
-ExecStart=/home/naandhaan/Desktop/DE/de/bin/python /home/naandhaan/Desktop/DE/collect.py
+ExecStart=/usr/bin/docker compose run --rm -T collector

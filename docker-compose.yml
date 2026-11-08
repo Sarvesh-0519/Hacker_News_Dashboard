@@ -21,6 +21,19 @@ services:
     depends_on:
       - pg
 
+  collector:
+    build: .
+    image: hn-collector
+    profiles: ["tools"]
+    environment:
+      DB_HOST: PG
+      DB_PORT: "5432"
+      DB_USER: postgres
+      DB_NAME: postgres
+      DB_Password: ${DB_Password}
+    depends_on:
+      - pg
+
 volumes:
   pgdata:
     external: true

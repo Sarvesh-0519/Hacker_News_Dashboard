@@ -31,10 +31,10 @@ def main():
     top_100 = ids[:100]
 
     conn = psycopg2.connect(
-        host="localhost",
-        port=6283,
-        dbname="postgres",
-        user="postgres",
+        host=os.environ.get("DB_HOST", "localhost"),
+        port=int(os.environ.get("DB_PORT", "6283")),
+        dbname=os.environ.get("DB_NAME", "postgres"),
+        user=os.environ.get("DB_USER", "postgres"),
         password=os.environ["DB_Password"],
     )
 
@@ -97,5 +97,5 @@ def main():
     finally:
         conn.close()
 
-
-main()
+if __name__ == "__main__":
+    main()

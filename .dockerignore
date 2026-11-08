@@ -1,0 +1,6 @@
+.env
+de/
+.git
+hn_dbt/
+systemd/
+__pycache__/
