@@ -14,7 +14,6 @@ flowchart LR
     PG --> D[dbt<br/>stg_snapshots, story_history]
     D --> PG2[(PostgreSQL<br/>analytics)]
     PG2 --> G[Grafana]
-    C -->|on success| D
 ```
 
 
