@@ -24,7 +24,7 @@ I built this on Linux (CachyOS, which is based on Arch). The steps should work o
 ### 1. Start the database and Grafana
 
 1. Clone the repo.
-2. Copy `.env.example` to `.env` and set a password in it. The same password is used for the PostgreSQL user.
+2. Copy *.env.example* to `.env` and set a password in it. The same password is used for the PostgreSQL user.
 3. Run `docker compose up -d`. The volumes are created automatically the first time.
 4. Test the collector once: `docker compose run --rm collector`. The first run builds the image.
 
