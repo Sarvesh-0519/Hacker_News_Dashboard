@@ -24,28 +24,27 @@ I built this on Linux (CachyOS, which is based on Arch). The steps should work o
 ### 1. Start the database and Grafana
 
 1. Clone the repo.
-2. Copy **`.env.example`** to `.env` and set a password in it. The same password is used for the PostgreSQL user.
-3. Run `docker compose up -d`. The volumes are created automatically the first time.
-4. Test the collector once: `docker compose run --rm collector`. The first run builds the image.
+2. Copy **`.env.example`** to **`.env`** and set a password in it. The same password is used for the PostgreSQL user.
+3. Run **`docker compose up -d`**. The volumes are created automatically the first time.
+4. Test the collector once: **`docker compose run --rm collector`**. The first run builds the image.
 
 ### 2. Set up dbt (in a virtual environment)
 
 dbt is not part of the collector's Docker image. It runs on the host, inside a Python virtual environment, so it has to be installed separately:
 
 ```
-python -m venv de
-source de/bin/activate        # fish shell: source de/bin/activate.fish
+python -m venv "your venv name"
+source "your venv name"/bin/activate        # fish shell: source "your venv name"/bin/activate.fish
 pip install dbt-postgres
 ```
 
-I named my virtual environment `de`. It is in `.gitignore`, so it is not part of the repo.
 
-dbt reads its database settings from `~/.dbt/profiles.yml` (in the home folder, outside the repo, so the password is never committed). Create it with these values:
+dbt reads its database settings from **`~/.dbt/profiles.yml`** (in the home folder, outside the repo, so the password is never committed). Create it with these values:
 
-- profile name: `hn_dbt` (it has to match the name in `hn_dbt/dbt_project.yml`)
-- host: `localhost`, port: `6283` (the port published by the `pg` container)
-- user: `postgres`, password: the one from your `.env`
-- database: `postgres`, schema: `analytics`
+- profile name: **`hn_dbt`** (it has to match the name in **`hn_dbt/dbt_project.yml`)**
+- host: **`localhost`**, port: **`6283`** (the port published by the **`pg`** container)
+- user: **`postgres`**, password: the one from your **`.env`**
+- database: **`postgres`**, schema: **`analytics`**
 
 Then check the connection and build the models:
 
@@ -61,14 +60,14 @@ Any changes made in the Grafana's dashboard can changed the actual values in the
 
 ### 4. Set up the systemd timer
 
-The files in `systemd/` contain my own paths, so they have to be edited before use. There are three kinds of paths to change:
+The files in **`systemd/`** contain my own paths, so they have to be edited before use. There are three kinds of paths to change:
 
 | File | Setting | Point it to |
 |---|---|---|
-| `hn.service` | `WorkingDirectory` | The folder where you cloned the repo (it must contain `docker-compose.yml`) |
-| `hn.service` | `ExecStart` | The full path of the `docker` command, which `which docker` prints (usually `/usr/bin/docker`), followed by `compose run --rm -T collector` | (the last command is to be run only once)
-| `hn-dbt.service` | `WorkingDirectory` | The `hn_dbt` folder inside the cloned repo |
-| `hn-dbt.service` | `ExecStart` | The `dbt` program **inside your virtual environment**: `<repo folder>/de/bin/dbt build` |
+| **`hn.service`** | **`WorkingDirectory`** | The folder where you cloned the repo (it must contain **`docker-compose.yml`**) |
+| **`hn.service`** | **`ExecStart`** | The full path of the `docker` command, which `which docker` prints (usually `/usr/bin/docker`), followed by **`compose run --rm -T collector`** | (the last command is to be run only once)
+| **`hn-dbt.service`** | **`WorkingDirectory`** | The **`hn_dbt`** folder inside the cloned repo |
+| **`hn-dbt.service`** | **`ExecStart`** | The **`dbt`** program **inside your virtual environment**: **`<repo folder>/de/bin/dbt build`** |
 
 systemd does not know about the virtual environment, which is why it needs the full path to `dbt` and not just the word `dbt`. The timer file has no paths.
 
@@ -81,7 +80,7 @@ systemctl --user daemon-reload
 systemctl --user enable --now hn-collect.timer
 ```
 
-To check that it works, run `systemctl --user start hn.service`, then read the logs with `journalctl --user -u hn.service` and `journalctl --user -u hn-dbt.service`. The dbt service starts only if the collector succeeds.
+To check that it works, run **`systemctl --user start hn.service`**, then read the logs with **`journalctl --user -u hn.service`** and **`journalctl --user -u hn-dbt.service`**. The dbt service starts only if the collector succeeds.
 
 The timer only runs while my computer is on and I'm logged in, so there are gaps in the data.
 
