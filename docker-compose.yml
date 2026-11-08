@@ -36,6 +36,6 @@ services:
 
 volumes:
   pgdata:
-    external: true
+    name: pgdata
   grafana-data:
-    external: true
+    name: grafana-data
